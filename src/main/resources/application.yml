@@ -11,8 +11,6 @@ spring:
 #    url: jdbc:mysql://210.34.58.2:13306/gongcheng?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
     username: gongcheng
     password: root
-#    username: root
-#    password: fzuir070399
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
