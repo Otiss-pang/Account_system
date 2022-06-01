@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ir.account.mapper.SaleContractMapper">
+    <select id="getSaleContractCondition" parameterType="com.ir.account.entity.vo.SaleContractQuery" resultType="com.ir.account.entity.SaleContract">
+        select * from sale_contract sc left join sale_product sp on sc.contract_id=sp.contract_id
+        <where>
+            <if test="date!=null">
+                and sc.date=#{date}
+            </if>
+            <if test="productName!=null">
+                and sp.product_name like concat('%',#{productName},'%')
+            </if>
+            <if test="productType!=null">
+                and sp.product_type like concat('%',#{productType},'%')
+            </if>
+            <if test="contractId!=null">
+                and sc.contract_id like concat('%',#{contractId},'%')
+            </if>
+            <if test="buyingUnit!=null">
+                and sc.buying_unit like concat('%',#{buyingUnit},'%')
+            </if>
+            <if test="remark!=null">
+                and sc.remark like concat('%',#{remark},'%')
+            </if>
+            <if test="receiptStatus!=null">
+                and sc.receipt_status =# {receiptStatus}
+            </if>
+        </where>
+        limit #{from},#{size}
+    </select>
+</mapper>

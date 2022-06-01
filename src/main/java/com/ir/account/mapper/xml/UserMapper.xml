@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ir.account.mapper.UserMapper">
+
+    <select id="listRoleByUserId" resultType="com.ir.account.entity.Role">
+        SELECT
+            t_role.role_id AS role_id,
+            t_role.role_name AS role_name
+        FROM
+            t_user_role
+                INNER JOIN
+            t_role
+            ON
+                t_role.role_id = t_user_role.role_id
+                INNER JOIN
+            auth_user
+            ON
+            t_user_role.uid = auth_user.id
+        WHERE auth_user.id = #{uid}
+    </select>
+    <select id="listPermissionByUserId" resultType="com.ir.account.entity.Permission">
+        SELECT
+            t_permission.perm AS perm,
+            t_permission.remark AS remark
+        FROM
+            auth_user
+                INNER JOIN
+            t_user_role
+            ON
+                #{uid} = t_user_role.uid
+                INNER JOIN
+            t_role
+            ON
+                t_user_role.role_id = t_role.role_id
+                INNER JOIN
+            t_role_perm
+            ON
+                t_role.role_id = t_role_perm.role_id
+                INNER JOIN
+            t_permission
+            ON
+                t_role_perm.perm_id = t_permission.id
+    </select>
+</mapper>

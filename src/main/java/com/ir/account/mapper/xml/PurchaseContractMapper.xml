@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ir.account.mapper.PurchaseContractMapper">
+    <select id="getConditionContract" resultType="com.ir.account.entity.PurchaseContract" parameterType="com.ir.account.entity.vo.PurchaseContractQuery">
+        select * from purchase_contract pc left join purchase_product pp on pc.contract_id=pp.contract_id
+        <where>
+            <if test="date!=null">
+                and pc.date=#{date}
+            </if>
+            <if test="productName!=null">
+                and pp.product_name like concat('%',#{productName},'%')
+            </if>
+            <if test="productType!=null">
+                and pp.product_type like concat('%',#{productType},'%')
+            </if>
+            <if test="contractId!=null">
+                and pc.contract_id like concat('%',#{contractId},'%')
+            </if>
+            <if test="supplier!=null">
+                and pc.supplier like concat('%',#{supplier},'%')
+            </if>
+            <if test="note!=null">
+                and pc.note like concat('%',#{note},'%')
+            </if>
+            <if test="state!=null">
+                and pc.state = #{state}
+            </if>
+        </where>
+        limit #{from},#{size}
+    </select>
+</mapper>

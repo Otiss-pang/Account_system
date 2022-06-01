@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ir.account.mapper.PurchaseProductMapper">
+
+    <select id="getProductStockVoList"
+            resultType="com.ir.account.entity.vo.ProductStockVo"
+            parameterType="com.ir.account.entity.vo.ProductStockQuery">
+        SELECT
+            p.id,
+            p.contract_id,
+            p.receipt_id,
+            p.trade_name,
+            p.product_name,
+            p.product_type,
+            p.purchase_num,
+            p.unit_price,
+            p.use_amount,
+            ( p.purchase_num - p.use_amount ) stock,
+            p.total_price,
+            r.receipt_type
+        FROM
+            purchase_product p
+                LEFT JOIN purchase_receipt r ON p.receipt_id = r.receipt_id
+        <where>
+            <if test="receiptId!=null and receiptId!=''" >
+                and p.receipt_id = #{receiptId}
+            </if>
+            <if test="contractId!=null and contractId!=''" >
+                and p.contract_id = #{contractId}
+            </if>
+            <if test="productName!=null and productName!=''">
+                and p.product_name like concat('%',#{productName},'%')
+            </if>
+            <if test="tradeName!=null and tradeName!=''">
+                and p.trade_name like concat('%',#{tradeName},'%')
+            </if>
+            <if test="productType!=null">
+                and p.product_type like concat('%',#{productType},'%')
+            </if>
+        </where>
+    </select>
+    <select id="getRelationDetailList" resultType="com.ir.account.entity.vo.RelationDetailVo">
+
+
+    </select>
+
+    <select id="getAllProducts" resultType="com.ir.account.entity.vo.PurchaseVo">
+        select
+        c.supplier,p.trade_name,p.product_name,p.product_type,p.unit_price,p.use_amount,p.receipt_id,p.contract_id
+        from
+            purchase_product p left join purchase_contract c on p.contract_id = c.contract_id
+    </select>
+</mapper>

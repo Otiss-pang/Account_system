@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ir.account.mapper.SaleReceiptMapper">
+    <select id="getAllList" resultType="com.ir.account.entity.salevo.CostManageVo">
+        select sr.id, sc.buying_unit ,sc.contract_id, sr.receipt_id,
+               sr.receipt_date,sr.receipt_type,sr.total_price, sr.rate
+        from sale_receipt sr left join sale_contract sc on sc.contract_id=sr.contract_id
+    </select>
+</mapper>
